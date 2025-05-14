@@ -1,12 +1,11 @@
 package com.baskettecase.hdfssource;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration as SpringConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.messaging.Message;
@@ -19,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
-@SpringConfiguration
+@Configuration
 @EnableScheduling
 public class HdfsFileSupplier {
     private static final Logger logger = LoggerFactory.getLogger(HdfsFileSupplier.class);
@@ -34,7 +33,7 @@ public class HdfsFileSupplier {
         this.properties = properties;
         this.streamBridge = streamBridge;
         try {
-            Configuration conf = new Configuration();
+            org.apache.hadoop.conf.Configuration conf = new org.apache.hadoop.conf.Configuration();
             conf.set("fs.defaultFS", properties.getUri());
             this.fileSystem = FileSystem.get(conf);
         } catch (Exception e) {

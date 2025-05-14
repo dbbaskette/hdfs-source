@@ -1,7 +1,0 @@
-hdfs:
-  uri: hdfs://localhost:9000
-  directory: /user/data/incoming
-  poll-interval: 5000 # milliseconds
-logging:
-  level:
-    root: INFO
