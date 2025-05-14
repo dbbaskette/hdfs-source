@@ -1,4 +1,4 @@
-package com.example.hdfssource;
+package com.baskettecase.hdfssource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

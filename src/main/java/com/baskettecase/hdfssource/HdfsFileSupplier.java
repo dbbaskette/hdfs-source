@@ -1,4 +1,4 @@
-package com.example.hdfssource;
+package com.baskettecase.hdfssource;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
