@@ -17,9 +17,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
+import org.springframework.context.annotation.Profile;
 
+/**
+ * HdfsFileSupplier is active only in 'scdf' profile.
+ * It polls an HDFS directory and emits file contents to a Spring Cloud Stream output binding (e.g., RabbitMQ).
+ * This enables integration with Spring Cloud Data Flow pipelines.
+ */
 @Configuration
 @EnableScheduling
+@Profile("scdf")
 public class HdfsFileSupplier {
     private static final Logger logger = LoggerFactory.getLogger(HdfsFileSupplier.class);
 
@@ -28,6 +35,11 @@ public class HdfsFileSupplier {
     private final Set<String> processedFiles = new HashSet<>();
     private FileSystem fileSystem;
 
+    /**
+     * Constructor initializes HDFS FileSystem using properties injected from configuration.
+     * @param properties HDFS connection and polling properties
+     * @param streamBridge Spring Cloud Stream bridge for sending messages
+     */
     @Autowired
     public HdfsFileSupplier(HdfsSourceProperties properties, StreamBridge streamBridge) {
         this.properties = properties;
@@ -41,6 +53,10 @@ public class HdfsFileSupplier {
         }
     }
 
+    /**
+     * Scheduled method that polls the configured HDFS directory for new files.
+     * For each new file, reads its contents and sends as a message to the output binding.
+     */
     @Scheduled(fixedDelayString = "${hdfs.poll-interval:5000}")
     public void pollDirectory() {
         if (fileSystem == null) return;
@@ -74,6 +90,10 @@ public class HdfsFileSupplier {
         }
     }
 
+    /**
+     * SCDF requires a Supplier bean for registration, but actual file sending is handled by scheduled polling.
+     * @return null (no direct supply)
+     */
     @Bean
     public Supplier<String> hdfsFileSupplier() {
         // This Supplier is required for SCDF registration, but actual sending is via scheduled poll.

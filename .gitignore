@@ -6,8 +6,13 @@
 .idea/
 *.iml
 
+# Compiled class file
+*.class
+
+# Ignore output directory for standalone tool
+output/
+
 # Eclipse
-*.classpath
 *.project
 *.settings/
 

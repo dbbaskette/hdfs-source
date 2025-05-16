@@ -3,6 +3,10 @@ package com.baskettecase.hdfssource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration properties for HDFS connection and polling.
+ * Populated from application.properties or environment variables.
+ */
 @Configuration
 @ConfigurationProperties(prefix = "hdfs")
 public class HdfsSourceProperties {

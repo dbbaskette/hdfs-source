@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/logo.png" alt="Project Logo" width="200"/>
+</p>
+
 # HDFS Source for Spring Cloud Data Flow
 
 A Spring Cloud Data Flow compatible source application that reads files from a directory on HDFS and emits their contents as messages. Built with Spring Boot 3.4.5 and Java 21.
@@ -23,12 +27,20 @@ logging.level.root=INFO
 ## Build & Run
 1. Build the project:
     ```sh
-    mvn clean package
+    ./mvnw clean package
     ```
-2. Run the app:
+
+2. **Standalone Mode** (HDFS → Local Directory):
     ```sh
     java -jar target/hdfs-source-0.0.1-SNAPSHOT.jar
     ```
+    - Reads from HDFS and writes to the output directory specified in `application.properties`.
+
+3. **SCDF Mode** (HDFS → RabbitMQ):
+    ```sh
+    java -jar target/hdfs-source-0.0.1-SNAPSHOT.jar --spring.profiles.active=scdf
+    ```
+    - Reads from HDFS and emits file contents as messages to the output binding (e.g., RabbitMQ) for Spring Cloud Data Flow.
 
 ## Deploy in Spring Cloud Data Flow
 1. Register the app as a source in SCDF:
@@ -45,6 +57,18 @@ logging.level.root=INFO
 - [Spring Stream Applications Guide](https://docs.spring.io/stream-applications/docs/current/reference/html/index.html#)
 - [Spring Cloud Data Flow Docs](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/)
 - [Hadoop FileSystem JavaDocs](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html)
+
+---
+
+## Code Documentation
+
+This project is fully documented with JavaDoc and inline comments. Key classes:
+- `HdfsFileSupplier`: SCDF-only, polls HDFS and emits file contents to message queue.
+- `HdfsToLocalExporter`: Standalone mode, copies files from HDFS to local directory.
+- `HdfsSourceApplication`: Entrypoint, switches between modes based on the active profile.
+- `HdfsSourceProperties`: Configuration properties for HDFS connection and polling.
+
+See the source code for detailed documentation.
 
 ---
 
