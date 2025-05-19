@@ -1,20 +1,12 @@
+
 package com.baskettecase.hdfssource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-/**
- * Configuration properties for HDFS connection and polling.
- * Populated from application.properties or environment variables.
- */
-@Configuration
 @ConfigurationProperties(prefix = "hdfs")
 public class HdfsSourceProperties {
-    /** HDFS URI, e.g. hdfs://namenode:8020 */
     private String uri;
-    /** Directory to watch on HDFS */
     private String directory;
-    /** Poll interval in ms */
     private long pollInterval = 5000;
 
     public String getUri() { return uri; }
